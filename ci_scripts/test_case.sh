@@ -1,4 +1,6 @@
 #!/bin/bash
+HOST_CASCADING=162.3.130.50
+
 ROOT_DIR="/var/lib/jenkins/scripts/"
 
 PRE_TEST_DIR=${ROOT_DIR}"hybrid_test_case/"
@@ -31,7 +33,6 @@ cd ${PRE_TEST_DIR}
 tar -cf ${TEST_CASE_TAR} ${TEST_CASE_DIR_NAME}
 cd ..
 
-HOST_CASCADING=162.3.120.50
 FILE_COPY_USER=fsp
 RUN_USER=root
 DES_DIR="/home/"${FILE_COPY_USER}"/hybrid_test/"

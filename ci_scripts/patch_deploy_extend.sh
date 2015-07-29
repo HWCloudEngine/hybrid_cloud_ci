@@ -1,5 +1,5 @@
 #!/bin/bash
-PATCH_NAME="cherry_for_B038";
+PATCH_NAME="cherry_for_111T";
 PATCH_VERSION=v0.1;
 PATCH_DIR=${PATCH_NAME}"_"${PATCH_VERSION}"/";
 
@@ -10,7 +10,7 @@ GIT_ROOT_DIR="/var/lib/jenkins/jobs/badam/workspace/";
 GIT_CODE_DIR=${GIT_ROOT_DIR}"fs_patches_of_hybrid_cloud/"${PATCH_NAME}"/";
 GIT_PATCH_DIR=${GIT_ROOT_DIR}"patches_tool/";
 
-CASCADING_HOST=162.3.120.50;
+CASCADING_HOST=162.3.130.50;
 FILE_COPY_USER=fsp;
 RUN_USER=root;
 REMOTE_DIR="/home/"${FILE_COPY_USER}"/"${PATCH_DIR};
@@ -64,6 +64,9 @@ prepare() {
     cp -rf ${GIT_CODE_DIR}"nova_cascading/nova/api"  ./patches_tool/hybrid_cloud_patches/cascading/nova/
     cp -rf ${GIT_CODE_DIR}"cinder_cascading_proxy_normal/cinder"  ./patches_tool/hybrid_cloud_patches/vcloud_proxy/
 
+    echo "copy config file..."
+    cp -rf ../config/* ./patches_tool/
+	
     echo "tar patches_tool.tar ..."
     tar -cf ./patches_tool.tar ./patches_tool >/dev/null 2>&1
 	
