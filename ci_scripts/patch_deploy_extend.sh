@@ -42,6 +42,7 @@ prepare() {
     rm -rf ./patches_tool/hybrid_cloud_patches/cascading/cinder/*
     rm -rf ./patches_tool/hybrid_cloud_patches/cascading/cinder/volume/*
     rm -rf ./patches_tool/hybrid_cloud_patches/cascading/nova/api/*
+    rm -rf ./patches_tool/hybrid_cloud_patches/cascading/novaclient/*
     rm -rf ./patches_tool/hybrid_cloud_patches/vcloud_proxy/cinder/*
 
 
@@ -62,6 +63,7 @@ prepare() {
     cp -rf ${GIT_CODE_DIR}"cinder_cascading_proxy_normal/cinder"  ./patches_tool/hybrid_cloud_patches/cascading/
     cp -rf ${GIT_CODE_DIR}"cinder_cascading/cinder/volume"  ./patches_tool/hybrid_cloud_patches/cascading/cinder/
     cp -rf ${GIT_CODE_DIR}"nova_cascading/nova/api"  ./patches_tool/hybrid_cloud_patches/cascading/nova/
+	cp -rf ${GIT_CODE_DIR}"nova_cascading/novaclient"  ./patches_tool/hybrid_cloud_patches/cascading/
     cp -rf ${GIT_CODE_DIR}"cinder_cascading_proxy_normal/cinder"  ./patches_tool/hybrid_cloud_patches/vcloud_proxy/
 
     echo "copy config file..."
