@@ -4,9 +4,9 @@
    PATCH_VERSION
    CASCADING_HOST
    
-2. test_case.sh中的：
+2. basic_function_test.sh中的：
    HOST_CASCADING
 
 然后执行：
 1. patch_deploy_extend.sh
-2. test_case.sh
+2. basic_function_test.sh

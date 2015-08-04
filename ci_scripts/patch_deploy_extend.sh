@@ -80,25 +80,28 @@ prepare() {
 deploy() {
     cd ${LOCAL_PATCH_DIR}
 
-    echo "copy patches_tool to CASCADING_HOST(${CASCADING_HOST}) ..."
+    echo "copy patches_tool to CASCADING_HOST(${CASCADING_HOST}) ..." > ./patch_deploy_log.LOG 2>&1
     ssh ${RUN_USER}@${CASCADING_HOST} rm -rf ${REMOTE_DIR}
     ssh ${FILE_COPY_USER}@${CASCADING_HOST} mkdir ${REMOTE_DIR}
 
     scp ./patches_tool.tar ${FILE_COPY_USER}@${CASCADING_HOST}:${REMOTE_DIR}
     ssh ${FILE_COPY_USER}@${CASCADING_HOST} tar -xf ${REMOTE_DIR}patches_tool.tar -C ${REMOTE_DIR} >/dev/null 2>&1
 
-    echo "backup original code..."
+	echo "cascading patches..." >> ./patch_deploy_log.LOG 2>&1
+    ssh ${RUN_USER}@${CASCADING_HOST} python ${REMOTE_DIR}patches_tool/config.py cascading >> ./patch_deploy_log.LOG 2>&1
+	
+	echo "prepare patches..." >> ./patch_deploy_log.LOG 2>&1
+    ssh ${RUN_USER}@${CASCADING_HOST} python ${REMOTE_DIR}patches_tool/config.py prepare >> ./patch_deploy_log.LOG 2>&1
+	
+    echo "backup original code..." >> ./patch_deploy_log.LOG 2>&1
     ssh ${RUN_USER}@${CASCADING_HOST} python ${REMOTE_DIR}patches_tool/config.py remote-backup > ./patch_deploy_log.LOG 2>&1
 
-    echo "prepare patch..."
-    ssh ${RUN_USER}@${CASCADING_HOST} python ${REMOTE_DIR}patches_tool/config.py prepare >> ./patch_deploy_log.LOG 2>&1
-
-    echo "deploy patch..."
+    echo "deploy patch..." >> ./patch_deploy_log.LOG 2>&1
     ssh ${RUN_USER}@${CASCADING_HOST} python ${REMOTE_DIR}patches_tool/patches_tool.py >> ./patch_deploy_log.LOG 2>&1
 
     sleep 20s
-    echo "check deploy result..."
-    ssh ${RUN_USER}@${CASCADING_HOST} python ${REMOTE_DIR}patches_tool/config.py check > ./patch_deploy_check.LOG 2>&1
+    echo "check deploy result..." > ./patch_deploy_check.LOG 2>&1
+    ssh ${RUN_USER}@${CASCADING_HOST} python ${REMOTE_DIR}patches_tool/config.py check >> ./patch_deploy_check.LOG 2>&1
     result=$(cat patch_deploy_check.LOG | grep "fault")
     if [ "$result" = "" ]; then
         echo "deploy patch success."
@@ -112,9 +115,9 @@ deploy() {
 prepare;
 deploy;
 if [ "$?" = 0 ]; then
-    echo "ok"
+    echo "ok" >> ./patch_deploy_log.LOG
 else
-    echo "error"
+    echo "failed" >> ./patch_deploy_log.LOG
 fi
 
 
